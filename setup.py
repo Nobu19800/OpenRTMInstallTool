@@ -6,7 +6,7 @@ import sys
 from setuptools import setup
 \
 
-NAME = 'AutoBuild'
+NAME = 'InstallTool'
 LICENSE = 'GPL'
 AUTHOR = ''
 AUTHOR_EMAIL = ''
@@ -34,11 +34,11 @@ if sys.platform == 'win32':
         author_email = AUTHOR_EMAIL,
         description = DESCRIPTION,
         url = URL,
-        scripts = ['AutoBuild.py'],
-        windows=[{"script": "AutoBuild.py"}],
+        scripts = ['InstallTool.py'],
+        windows=[{"script": "InstallTool.py"}],
         options = {'py2exe': PY2EXE_OPTIONS,
                    'innosetup': INNOSETUP_OPTIONS},
-        zipfile = 'AutoBuild.lib',
+        zipfile = 'InstallTool.lib',
     )
 
 elif sys.platform == 'darwin':
@@ -56,7 +56,7 @@ elif sys.platform == 'darwin':
         author_email = AUTHOR_EMAIL,
         description = DESCRIPTION,
         url = URL,
-        app = ['AutoBuild.py'],
+        app = ['InstallTool.py'],
         options = {'py2app': OPTIONS},
         setup_requires=["py2app"],
     )

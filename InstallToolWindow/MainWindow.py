@@ -209,7 +209,7 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.setWindowTitle(u"インストール簡易化ツール")
+        self.setWindowTitle(u"インストール支援ツール")
 
 
         self.mutex = QtCore.QMutex()
