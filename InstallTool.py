@@ -2,8 +2,8 @@
 # -*- encoding: utf-8 -*-
 
 ##
-#   @file SettingRTCConf.py
-#   @brief 
+#   @file InstallTool.py
+#   @brief インストール支援ツール
 
 
 
@@ -34,7 +34,7 @@ import InstallToolWindow.MainWindow
 
         
 ##
-# @brief 
+# @brief メイン関数
 def main():
     
     app = QtGui.QApplication([""])

@@ -2,8 +2,8 @@
 # -*- encoding: utf-8 -*-
 
 ##
-#   @file .py
-#   @brief 
+#   @file MainWindow.py
+#   @brief メインウインドウ
 
 
 
@@ -32,23 +32,44 @@ import shutil
 from PyQt4 import QtCore, QtGui
 
 
-
+##
+# @brief ZIPファイルを解凍
+# @param filename　ZIPファイル名 
+# @param path 展開先のディレクトリ
 def unzip(filename, path='.'):
     with zipfile.ZipFile(filename, 'r') as zip_file:
         zip_file.extractall(path=path)
 
+##
+# @class InstallThread
+# @brief インストールするスレッド
+#
 class InstallThread(QtCore.QThread):
+    ##
+    # @brief コンストラクタ
+    # @param self 
+    # @param parent 親ウィジェット
     def __init__(self, parent=None):
         super(InstallThread, self).__init__(parent)
         #self.func = func
         #self.input = input
         self.parentWidget = parent
+    ##
+    # @brief スレッド実行関数
+    # @param self 
     def run(self):
         self.parentWidget.Install()
         #with QtCore.QMutexLocker(self.parentWidget.mutex):
         #with parent.lock:
         #    self.func(self.input)
-        
+
+
+##
+# @brief setuptoolsのインストール
+# @param self 
+# @param tmp_dir 一時保存ディレクトリ
+# @param window 進行状況表示テキストウィジェット
+# @param url ダウンロードURL
 def InstallSetuptools(name, tmp_dir, window, url):
     os.chdir(tmp_dir)
     #TextEdit = window.TextEdit
@@ -81,6 +102,14 @@ def InstallSetuptools(name, tmp_dir, window, url):
     #TextEdit.append(cmd)
     window.addText(cmd)
 
+
+##
+# @brief Pythonモジュールのインストール
+# @param self 
+# @param tmp_dir 一時保存ディレクトリ
+# @param window 進行状況表示テキストウィジェット
+# @param url ダウンロードURL
+# @param unZipName 解凍後のファイル名
 def InstallPython(name, tmp_dir, window, url, unZipName):
     os.chdir(tmp_dir)
     #TextEdit = window.TextEdit
@@ -124,6 +153,12 @@ def InstallPython(name, tmp_dir, window, url, unZipName):
     #TextEdit.append(cmd)
     window.addText(cmd)
 
+##
+# @brief MSIインストーラーでのインストール
+# @param self 
+# @param tmp_dir 一時保存ディレクトリ
+# @param window 進行状況表示テキストウィジェット
+# @param url ダウンロードURL
 def InstallMSI(name, tmp_dir, window, url):
     os.chdir(tmp_dir)
     #TextEdit = window.TextEdit
@@ -160,7 +195,10 @@ def InstallMSI(name, tmp_dir, window, url):
 
 
 
-
+##
+# @class MainWindow
+# @brief メインウインドウ
+#
 class MainWindow(QtGui.QMainWindow):
     python_url = {}
     python_url["2.6"] = {}
@@ -205,7 +243,9 @@ class MainWindow(QtGui.QMainWindow):
     CMake_url = "http://www.cmake.org/files/v3.2/cmake-3.2.1-win32-x86.exe"
     Doxygen_url = "http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1-setup.exe"
 
-
+    ##
+    # @brief コンストラクタ
+    # @param self 
     def __init__(self):
         super(MainWindow, self).__init__()
 
@@ -343,7 +383,9 @@ class MainWindow(QtGui.QMainWindow):
         self.cmdList = []
 
         
-        
+    ##
+    # @brief 進行状況表示テキストを更新
+    # @param self  
     def updateTextEdit(self):
         with QtCore.QMutexLocker(self.mutex):
             for cmd in self.cmdList:
@@ -354,10 +396,19 @@ class MainWindow(QtGui.QMainWindow):
                 
             self.cmdList = []
 
+    ##
+    # @brief 進行状況表示テキストにテキスト追加
+    # @param self
+    # @param cmd　テキスト
     def addText(self, cmd):
         with QtCore.QMutexLocker(self.mutex):
             self.cmdList.append(cmd)
 
+    ##
+    # @brief Pythonをインストール
+    # @param self
+    # @param version バージョン
+    # @param bitnum 32bitか64bitか
     def InstallPython(self, version,  bitnum):
         InstallMSI(u"Python",self.tmp_path,self,MainWindow.python_url[version][bitnum])
         """input = {}
@@ -369,7 +420,12 @@ class MainWindow(QtGui.QMainWindow):
         m_thread = InstallThread(InstallMSI,input,self)
         m_thread.start()"""
         #InstallMSI(input)
-        
+
+    ##
+    # @brief OpenRTM-aistをインストール
+    # @param self
+    # @param version 対応するVisual Studioのバージョン
+    # @param bitnum 32bitか64bitか
     def InstallOpenRTM(self, version,  bitnum):
         InstallMSI(u"OpenRTM-aist",self.tmp_path,self,MainWindow.openrtm_url[version][bitnum])
         """input = {}
@@ -380,6 +436,11 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallMSI,input,self)
         m_thread.start()"""
+
+    ##
+    # @brief OpenRTM-aist-Pythonをインストール
+    # @param self
+    # @param bitnum 32bitか64bitか
     def InstallOpenRTMPython(self, bitnum):
         InstallMSI(u"OpenRTM-aist-Python",self.tmp_path,self,MainWindow.openrtm_python_url[bitnum])
         """input = {}
@@ -390,6 +451,9 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallMSI,input,self)
         m_thread.start()"""
+    ##
+    # @brief setuptoolsをインストール
+    # @param self
     def Installsetuptools(self):
         InstallSetuptools(u"setuptools",self.tmp_path,self,MainWindow.setuptools_url)
         """input = {}
@@ -400,7 +464,10 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallSetuptools,input,self)
         m_thread.start()"""
-        
+
+    ##
+    # @brief rtctreeをインストール
+    # @param self
     def Installrtctree(self):
         InstallPython(u"rtctree",self.tmp_path,self,MainWindow.rtctree_url,"rtctree-master")
         """input = {}
@@ -412,7 +479,10 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallPython,input,self)
         m_thread.start()"""
-        
+
+    ##
+    # @brief rtsprofileをインストール
+    # @param self
     def Installrtsprofile(self):
         InstallPython(u"rtsprofile",self.tmp_path,self,MainWindow.rtsprofile_url,"rtsprofile-master")
         """input = {}
@@ -424,6 +494,10 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallPython,input,self)
         m_thread.start()"""
+
+    ##
+    # @brief rtshellをインストール
+    # @param self
     def Installrtshell(self):
         InstallPython(u"rtshell",self.tmp_path,self,MainWindow.rtshell_url,"rtshell-master")
         """input = {}
@@ -435,6 +509,10 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallPython,input,self)
         m_thread.start()"""
+
+    ##
+    # @brief PyYAMLをインストール
+    # @param self
     def InstallPyYAML(self):
         InstallPython(u"PyYAML",self.tmp_path,self,MainWindow.PyYAML_url,"PyYAML-3.11")
         """input = {}
@@ -446,6 +524,10 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallPython,input,self)
         m_thread.start()"""
+
+    ##
+    # @brief CMakeをインストール
+    # @param self
     def InstallCMake(self):
         InstallMSI(u"CMake",self.tmp_path,self,MainWindow.CMake_url)
         """input = {}
@@ -456,6 +538,10 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallMSI,input,self)
         m_thread.start()"""
+
+    ##
+    # @brief Doxygenをインストール
+    # @param self
     def InstallDoxygen(self):
         InstallMSI(u"Doxygen",self.tmp_path,self,MainWindow.Doxygen_url)
         """input = {}
@@ -467,6 +553,9 @@ class MainWindow(QtGui.QMainWindow):
         m_thread = InstallThread(InstallMSI,input,self)
         m_thread.start()"""
 
+    ##
+    # @brief インストール
+    # @param self
     def Install(self):
         cmd = u"インストールを開始しました"
         #self.TextEdit.append(cmd)
@@ -530,12 +619,20 @@ class MainWindow(QtGui.QMainWindow):
         #self.TextEdit.append(cmd)
         self.addText(cmd)
         
-            
+
+    ##
+    # @brief インストール開始ボタンのスロット
+    # @param self
     def InstallSlot(self):
         m_thread = InstallThread(self)
         m_thread.start()
         
-        
+    ##
+    # @brief ラジオボタン作成
+    # @param self
+    # @param nameList ボタンラベルのリスト
+    # @param name 表示する名前
+    # @param mainlayout 追加するレイアウト
     def createRadioButton(self, nameList, name, mainlayout):
         groupbox = QtGui.QGroupBox(name)
         alayout = QtGui.QVBoxLayout()
@@ -565,7 +662,10 @@ class MainWindow(QtGui.QMainWindow):
 
 
         
-
+    ##
+    # @brief メッセージボックス表示
+    # @param self
+    # @param mes 表示するテキスト
     def mesBox(self, mes):
         msgbox = QtGui.QMessageBox( self )
         msgbox.setText( mes )
