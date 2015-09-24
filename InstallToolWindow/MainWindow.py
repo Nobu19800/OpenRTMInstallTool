@@ -410,7 +410,7 @@ class MainWindow(QtGui.QMainWindow):
     # @param version バージョン
     # @param bitnum 32bitか64bitか
     def InstallPython(self, version,  bitnum):
-        #InstallMSI(u"Python",self.tmp_path,self,MainWindow.python_url[version][bitnum])
+        InstallMSI(u"Python",self.tmp_path,self,MainWindow.python_url[version][bitnum])
         """input = {}
         input["TEMP"] = self.tmp_path
         input["MainWindow"] = self
