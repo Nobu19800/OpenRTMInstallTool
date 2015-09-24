@@ -236,9 +236,9 @@ class MainWindow(QtGui.QMainWindow):
 
     setuptools_url = "https://bootstrap.pypa.io/ez_setup.py"
 
-    rtctree_url = "https://github.com/gbiggs/rtctree/archive/master.zip"
-    rtsprofile_url = "https://github.com/gbiggs/rtsprofile/archive/master.zip"
-    rtshell_url = "https://github.com/gbiggs/rtshell/archive/master.zip"
+    rtctree_url = "https://github.com/gbiggs/rtctree/archive/v4.0.0.zip"
+    rtsprofile_url = "https://github.com/gbiggs/rtsprofile/archive/v4.0.0.zip"
+    rtshell_url = "https://github.com/gbiggs/rtshell/archive/v4.0.0.zip"
     PyYAML_url = "http://pyyaml.org/download/pyyaml/PyYAML-3.11.zip"
     CMake_url = "http://www.cmake.org/files/v3.2/cmake-3.2.1-win32-x86.exe"
     Doxygen_url = "http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1-setup.exe"
@@ -469,7 +469,7 @@ class MainWindow(QtGui.QMainWindow):
     # @brief rtctreeをインストール
     # @param self
     def Installrtctree(self):
-        InstallPython(u"rtctree",self.tmp_path,self,MainWindow.rtctree_url,"rtctree-master")
+        InstallPython(u"rtctree",self.tmp_path,self,MainWindow.rtctree_url,"rtctree-4.0.0")
         """input = {}
         input["TEMP"] = self.tmp_path
         input["MainWindow"] = self
@@ -484,7 +484,7 @@ class MainWindow(QtGui.QMainWindow):
     # @brief rtsprofileをインストール
     # @param self
     def Installrtsprofile(self):
-        InstallPython(u"rtsprofile",self.tmp_path,self,MainWindow.rtsprofile_url,"rtsprofile-master")
+        InstallPython(u"rtsprofile",self.tmp_path,self,MainWindow.rtsprofile_url,"rtsprofile-4.0.0")
         """input = {}
         input["TEMP"] = self.tmp_path
         input["MainWindow"] = self
@@ -499,7 +499,7 @@ class MainWindow(QtGui.QMainWindow):
     # @brief rtshellをインストール
     # @param self
     def Installrtshell(self):
-        InstallPython(u"rtshell",self.tmp_path,self,MainWindow.rtshell_url,"rtshell-master")
+        InstallPython(u"rtshell",self.tmp_path,self,MainWindow.rtshell_url,"rtshell-4.0.0")
         """input = {}
         input["TEMP"] = self.tmp_path
         input["MainWindow"] = self
