@@ -410,7 +410,7 @@ class MainWindow(QtGui.QMainWindow):
     # @param version バージョン
     # @param bitnum 32bitか64bitか
     def InstallPython(self, version,  bitnum):
-        InstallMSI(u"Python",self.tmp_path,self,MainWindow.python_url[version][bitnum])
+        #InstallMSI(u"Python",self.tmp_path,self,MainWindow.python_url[version][bitnum])
         """input = {}
         input["TEMP"] = self.tmp_path
         input["MainWindow"] = self
@@ -419,6 +419,26 @@ class MainWindow(QtGui.QMainWindow):
 
         m_thread = InstallThread(InstallMSI,input,self)
         m_thread.start()"""
+        v = "27"
+        if version == "2.6":
+            v = "26"
+        python_path = "C:\\Python" + v
+        script_path = python_path + "\\Scripts"
+        print os.environ['PATH'].find(python_path)
+        print os.environ['PATH'].find(script_path)
+        if os.environ['PATH'].find(python_path) == -1:
+            os.environ['PATH'] += ";" + python_path
+            cmd = 'setx /M PATH "' + os.environ['PATH'] + '"'
+            if len(cmd) < 1024:
+                subprocess.call(cmd)
+        if os.environ['PATH'].find(script_path) == -1:
+            os.environ['PATH'] += ";" + script_path
+            cmd = 'setx /M PATH "' + os.environ['PATH'] + '"'
+            if len(cmd) < 1024:
+                subprocess.call(cmd)
+            #subprocess.call(cmd)
+        
+            
         #InstallMSI(input)
 
     ##
