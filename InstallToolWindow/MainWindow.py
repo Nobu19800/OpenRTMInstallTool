@@ -28,6 +28,8 @@ import urllib
 import subprocess
 import shutil
 
+import tempfile
+
 
 from PyQt4 import QtCore, QtGui
 
@@ -581,11 +583,13 @@ class MainWindow(QtGui.QMainWindow):
         #self.TextEdit.append(cmd)
         self.addText(cmd)
         
-        self.tmp_path = os.path.join(os.environ["TEMP"],"RTMToolsInstall_Dir")
+        #self.tmp_path = os.path.join(os.environ["TEMP"],"RTMToolsInstall_Dir")
 
-        if not os.path.exists(self.tmp_path):
-            os.mkdir(self.tmp_path)
+        #if not os.path.exists(self.tmp_path):
+        #    os.mkdir(self.tmp_path)
 
+        self.tmp_path = tempfile.mkdtemp()
+        
 
         if self.PythonYNGroupBox.checkedId() == 0:
             if self.PythonVersionGroupBox.checkedId() == 0:
@@ -633,6 +637,7 @@ class MainWindow(QtGui.QMainWindow):
             self.InstallDoxygen()
 
         os.chdir(os.path.join(self.tmp_path,".."))
+        
         shutil.rmtree(self.tmp_path)
 
         cmd = u"全てのソフトウェアのインストールを完了しました"
